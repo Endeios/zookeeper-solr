@@ -26,7 +26,7 @@ Zookeeper answers to that problem:  it keeps the STATE of a distributed applicat
 - Sets ZK in a way that "MAKES SENSE" (more on this later)
 
 then has solved the problem of distribuiting a state for an app.
-
+![](diagrams/out/apps-with-state-zk.png)
 
 # Links and sources
 - https://solr.apache.org/guide/8_8/solr-tutorial.html

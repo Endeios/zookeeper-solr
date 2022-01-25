@@ -1,0 +1,54 @@
+@startuml apps-with-state-zk
+title "If your app uses state to answer the user, and is distribuite"
+!include zk-logo.logo
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+!include <logos/solr>
+!include <logos/java>
+!include <logos/nginx>
+!include <logos/apache-camel>
+''Container(zk,"ZooKeeper","JavaApp","Provides distributed coordination and synchronization of settings, state of the application, online state",$sprite=zookeeper)
+Person(user,"The user","it is his business to use the application for....")
+Container(load_balancer,"Some load Balancer","nginx","Balances the load between the instance of your application", $sprite=nginx)
+System_Boundary(my_system,"This is the distributed system"){
+    Container_Boundary(my_app1,"1)This is an instance the application that I want to distribuite"){
+       Component(logic1,"Logic","Java","This is where the logic of your program resides. has methods and stuff", $sprite=java)
+       Component(state1,"State","Zookeeper","This is a zookeeper instance, keeping the state of your app", $sprite=zookeeper)
+    }
+    Container_Boundary(my_app2,"2)This is an instance the application that I want to distribuite"){
+       Component(logic2,"Logic","Java","This is where the logic of your program resides. has methods and stuff", $sprite=java)
+       Component(state2,"State","Zookeeper","This is a zookeeper instance, keeping the state of your app", $sprite=zookeeper)
+    }
+    Container_Boundary(my_app3,"3)This is an instance the application that I want to distribuite"){
+       Component(logic3,"Logic","Java","This is where the logic of your program resides. has methods and stuff", $sprite=java)
+       Component(state3,"State","Zookeeper","This is a zookeeper instance, keeping the state of your app", $sprite=zookeeper)
+
+}
+
+Rel(user,load_balancer,"1) Uses a functionality")
+Rel(load_balancer, my_system,"2) Uses a functionality")
+
+
+Rel(logic1,state1,"3) Checks the state to understand how to answer to the user")
+Rel(state1,logic1,"4) returns the state")
+
+Rel(logic2,state2,"3) Checks the state to understand how to answer to the user")
+Rel(state2,logic2,"4) returns the state")
+
+Rel(logic3,state3,"3) Checks the state to understand how to answer to the user")
+Rel(state3,logic3,"4) returns the state")
+
+
+Rel(my_system, load_balancer, "5) Responds to the user in the correct way")
+Rel(load_balancer, user , "6) Responds to the user in the correct way")
+
+Lay_R(my_app1, my_app2)
+Lay_U(my_app1, my_app2)
+Lay_D(my_app2, my_app3)
+Lay_D(my_app1, my_app3)
+
+state1 .[#green,thickness=6]. state2 : <color:green><size:45><&circle-check></size></color>
+state1 .[#green,thickness=6]. state3 : <color:green><size:45><&circle-check></size></color>
+state2 .[#green,thickness=6]. state3 : <color:green><size:45><&circle-check></size></color>
+
+@enduml
