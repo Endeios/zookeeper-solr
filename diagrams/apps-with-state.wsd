@@ -1,0 +1,19 @@
+@startuml apps-with-state
+title "If your app uses state to answer the user"
+''!include zk-logo.wsd
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+!include <logos/solr>
+!include <logos/apache-camel>
+''Container(zk,"ZooKeeper","JavaApp","Provides distributed coordination and synchronization of settings, state of the application, online state",$sprite=zookeeper)
+Person(user,"The user","it is his business to use the application for....")
+Container_Boundary(my_app,"This is the application that I want to distribuite"){
+    Component(logic,"Logic","Java","This is where the logic of your program resides. has methods and stuff")
+    Component(state,"State","Java","This is the app state, something I need to correctly respond to the user")
+}
+
+Rel(user,logic,"1) Uses a functionality")
+Rel(logic,state,"2) Checks the state to understand how to answer to the user")
+Rel(state,logic,"3) returns the state")
+Rel(logic, user, "4) Responds to the user in the correct way")
+@enduml

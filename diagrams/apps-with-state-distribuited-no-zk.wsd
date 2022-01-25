@@ -1,0 +1,40 @@
+@startuml apps-with-state
+title "If your app uses state to answer the user"
+''!include zk-logo.wsd
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+!include <logos/solr>
+!include <logos/java>
+!include <logos/nginx>
+!include <logos/apache-camel>
+''Container(zk,"ZooKeeper","JavaApp","Provides distributed coordination and synchronization of settings, state of the application, online state",$sprite=zookeeper)
+Person(user,"The user","it is his business to use the application for....")
+Container(load_balancer,"Some load Balancer","nginx","Balances the load between the instance of your application", $sprite=nginx)
+System_Boundary(my_system,"This is the distributed system"){
+    Container_Boundary(my_app1,"This is an instance the application that I want to distribuite"){
+       Component(logic1,"Logic","Java","This is where the logic of your program resides. has methods and stuff", $sprite=java)
+       Component(state1,"State","Java","This is the app state, something I need to correctly respond to the user", $sprite=java)
+    }
+    Container_Boundary(my_app2,"This is an instance of application that I want to distribuite"){
+       Component(logic2,"Logic","Java","This is where the logic of your program resides. has methods and stuff", $sprite=java)
+       Component(state2,"State","Java","This is the app state, something I need to correctly respond to the user", $sprite=java)
+    }
+
+}
+
+Rel(user,load_balancer,"1) Uses a functionality")
+Rel(load_balancer, my_system,"2) Uses a functionality")
+Rel(logic1,state1,"3) Checks the state to understand how to answer to the user")
+Rel(state1,logic1,"4) returns the state")
+Rel(logic2,state2,"3) Checks the state to understand how to answer to the user")
+Rel(state2,logic2,"4) returns the state")
+Rel(my_system, load_balancer, "5) Responds to the user in the correct way")
+Rel(load_balancer, user , "6) Responds to the user in the correct way")
+
+note "The states are different, so the user cannot go to another instance of the app and resume her work: if an instance goes down, there will be a disservice to the users" as stateNote
+state1 .. stateNote
+state2 .. stateNote
+
+state1 .[#red,thickness=6]. state2 : <color:red><size:45><&circle-x></size></color>
+
+@enduml
