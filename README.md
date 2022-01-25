@@ -10,11 +10,15 @@ But what does it mean? Many of us had this problem:
 
 ```I have a nice application, now I need to have it distribuited, so I can scale.``` 
 
+![](diagrams/out/apps-with-state.png)
+
 And the following question is: 
 
 ```How do I distribuite the state of my application to guarantee hig availability and the state always updated?```
 
 We all know that the issue here is about maitaining that distribuited state, and we all know that is a steaming mess of issues and retries, and connections and corner cases
+
+![](diagrams/out/apps-with-state-no-zk.png)
 
 Zookeeper answers to that problem:  it keeps the STATE of a distributed application. It also offers _high availability_ to your distributed application, in the same library: if one
 
