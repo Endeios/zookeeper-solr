@@ -1,5 +1,5 @@
-@startuml apps-with-state
-title "If your app uses state to answer the user"
+@startuml apps-with-state-no-zk
+title "If your app uses state to answer the user, and is distribuite"
 ''!include zk-logo.wsd
 !include <C4/C4_Container>
 !include <C4/C4_Component>
