@@ -1,0 +1,31 @@
+@startuml solr-cloud-logical
+!include <logos/solr>
+cloud "<$solr> Cluster" as cluster {
+    database "Collection one" as collection1 {
+        hexagon "Shard 1 of\ncollection one" as sha11
+        hexagon "Shard 2 of\ncollection one" as sha12
+        hexagon "Shard 3 of\ncollection one" as sha13
+        hexagon "Shard 4 of\ncollection one" as sha15
+    }
+    ''database "Collection two" as collection2
+    ''database "Collection three" as collection3
+}
+note bottom of cluster
+    a cluster is made of nodes 
+    and can contain
+    multiple collections
+end note
+
+note left of collection1
+    a collection is a database
+    that contains a certain type of document,
+    in the sense of 
+    - a collection of contracts
+    - a collection of books
+end note
+
+note top of sha11
+    Contains a subset of the
+    documents of the collections
+end note
+@enduml

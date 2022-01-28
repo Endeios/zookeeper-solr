@@ -1,0 +1,105 @@
+version: '3.1'
+
+services:
+  zoo1:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2181:2181
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: &ZOO_SERVERS server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181 server.4=zoo4:2888:3888;2181 server.5=zoo5:2888:3888;2181
+      ZOO_AUTOPURGE_PURGEINTERVAL: &ZOO_AUTOPURGE_INTERVAL 1
+      ZOO_AUTOPURGE_SNAPRETAINCOUNT: &ZOO_AUTOPURGE_SNAPRETAINCOUNT 3
+      ZOO_4LW_COMMANDS_WHITELIST: &ZOO_4LW_COMMANDS_WHITELIST "mntr,conf,ruok"
+#      ZOO_CFG_EXTRA: "4lw.commands.whitelist=mntr,conf,ruok"
+  zoo2:
+    image: zookeeper
+    restart: always
+    hostname: zoo2
+    ports:
+      - 2182:2181
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: *ZOO_SERVERS
+      ZOO_AUTOPURGE_PURGEINTERVAL: *ZOO_AUTOPURGE_INTERVAL
+      ZOO_AUTOPURGE_SNAPRETAINCOUNT: *ZOO_AUTOPURGE_SNAPRETAINCOUNT
+      ZOO_4LW_COMMANDS_WHITELIST: *ZOO_4LW_COMMANDS_WHITELIST
+      
+  zoo3:
+    image: zookeeper
+    restart: always
+    hostname: zoo3
+    ports:
+      - 2183:2181
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: *ZOO_SERVERS
+      ZOO_AUTOPURGE_PURGEINTERVAL: *ZOO_AUTOPURGE_INTERVAL
+      ZOO_AUTOPURGE_SNAPRETAINCOUNT: *ZOO_AUTOPURGE_SNAPRETAINCOUNT
+      ZOO_4LW_COMMANDS_WHITELIST: *ZOO_4LW_COMMANDS_WHITELIST
+  
+  zoo4:
+    image: zookeeper
+    restart: always
+    hostname: zoo4
+    ports:
+      - 2184:2181
+    environment:
+      ZOO_MY_ID: 4
+      ZOO_SERVERS: *ZOO_SERVERS
+      ZOO_AUTOPURGE_PURGEINTERVAL: *ZOO_AUTOPURGE_INTERVAL
+      ZOO_AUTOPURGE_SNAPRETAINCOUNT: *ZOO_AUTOPURGE_SNAPRETAINCOUNT
+      ZOO_4LW_COMMANDS_WHITELIST: *ZOO_4LW_COMMANDS_WHITELIST
+
+  zoo5:
+    image: zookeeper
+    restart: always
+    hostname: zoo5
+    ports:
+      - 2185:2181
+    environment:
+      ZOO_MY_ID: 5
+      ZOO_SERVERS: *ZOO_SERVERS
+      ZOO_AUTOPURGE_PURGEINTERVAL: *ZOO_AUTOPURGE_INTERVAL
+      ZOO_AUTOPURGE_SNAPRETAINCOUNT: *ZOO_AUTOPURGE_SNAPRETAINCOUNT
+      ZOO_4LW_COMMANDS_WHITELIST: *ZOO_4LW_COMMANDS_WHITELIST
+
+
+  solr1:
+    image: solr:8.11
+    depends_on:
+      - zoo1
+    restart: "no"
+    hostname: solr1
+    ports:
+      - 8983:8983
+    environment:
+      ZK_HOST: &ZK_HOST zoo1:2181,zoo2:2181,zoo3:2181,zoo4:2181,zoo5:2181
+
+  solr2:
+    image: solr:8.11
+    depends_on:
+      - zoo1
+    restart: "no"
+    hostname: solr2
+    ports:
+      - 8984:8983
+    environment:
+      ZK_HOST: *ZK_HOST
+
+
+  solr3:
+    image: solr:8.11
+    depends_on:
+      - zoo1
+    restart: "no"
+    hostname: solr3
+    ports:
+      - 8985:8983
+    environment:
+      ZK_HOST: *ZK_HOST
+
+
+

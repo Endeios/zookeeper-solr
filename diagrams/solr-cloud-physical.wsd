@@ -1,0 +1,52 @@
+@startuml solr-cloud-physical
+!include <logos/solr>
+!include <tupadr3/font-awesome/server>
+cloud "<$solr> Cluster" as cluster {
+    node "<$server>\nA node" as node1 {
+        rectangle "<$solr> Instance" as si1 {
+            component "Core 1" as core1 #palegreen;line:green;text:green{
+                hexagon "Shard 1"
+            }
+            component "Core 2" as core2 #palegreen;line:green;text:green{
+                hexagon "Shard 2"
+            }
+            component "Core 3" as core3 #aliceblue;line:blue;text:blue{
+                hexagon "Shard 3"
+            }
+            component "Core 4" as core4 #aliceblue;line:blue;text:blue{
+                hexagon "Shard 4"
+            }
+            component "Core 5" as core5 #aliceblue;line:blue;text:blue{
+                hexagon "Shard 1" as sha1
+            }
+            component "Core 6" as core6 #aliceblue;line:blue;text:blue{
+                hexagon "Shard 2" as sha23
+            }
+        }
+    }
+    ''database "Collection two" as collection2
+    ''database "Collection three" as collection3
+}
+
+note top of node1
+    A node is a solr instance running on a machine
+end note
+
+note bottom of si1
+    A node can contain various cores, 
+    each containing a <b>REPLICA</b> of a shard
+end note
+
+note bottom of core1
+    Some of the replicas are going to be leaders
+    this means that they are the ones that get
+    to index new documents, and will tell the others
+    replicas what to do to update to them to the
+    latest version
+end note
+
+note bottom of core5
+    This shard is a 
+    <b>Follower</b>
+end note
+@enduml

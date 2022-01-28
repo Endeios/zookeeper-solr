@@ -1,0 +1,48 @@
+@startuml healty-solr
+title "How does an healty solr setup looks like"
+!include zk-logo.logo
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+!include <logos/solr>
+!include <logos/java>
+!include <logos/nginx>
+!include <logos/apache-camel>
+!include <tupadr3/font-awesome/server>
+
+person "User" as user
+
+component "<$java>\nMyJava application, that uses solr" as javonzo
+
+component "<$nginx>\nLoad Balancer" as nginx
+
+node "<$server>\nHost 1" as h1 {
+    component "<$solr>\nSolr node 1" as s1
+    component "<$zookeeper>\nZookeeper node 1" as z1
+}
+node "<$server>\nHost 2" as h2 {
+    component "<$solr>\nSolr node 2" as s2
+    component "<$zookeeper>\nZookeeper node 2" as z2
+}
+
+node "<$server>\nHost 3" as h3 {
+    component "<$solr>\nSolr node 3" as s3
+    component "<$zookeeper>\nZookeeper node 3" as z3
+}
+
+user -> javonzo : uses the application
+
+javonzo -> nginx : distribuites the load
+
+nginx -> s1
+nginx -> s2
+nginx -> s3
+
+s1 <-do-> z1
+s2 <-do-> z2
+s3 <-do-> z3
+
+z2 <--> z3
+z1 <--> z2
+z1 <--> z3
+
+@enduml
