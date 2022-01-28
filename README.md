@@ -28,7 +28,7 @@ Zookeeper answers to that problem:  it keeps the STATE of a distributed applicat
 then has solved the problem of distribuiting a state for an app.
 ![](diagrams/out/apps-with-state-zk.png)
 
-### Fun facts
+### VERY important facts
 
 A cluster of Zookeepers is called an ```ensemble```. An ensamble MUST be composed of an odd number of total nodes, so to guarantee, that, at least in principle, half minus one nodes can go down, and the ensamble has still a majority. A minorty ensamble is a useless ensamble, because one cannot say that the data contained in it is good or not.
 
