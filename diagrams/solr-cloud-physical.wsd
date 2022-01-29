@@ -1,26 +1,44 @@
 @startuml solr-cloud-physical
 !include <logos/solr>
+!include <logos/lucene>
 !include <tupadr3/font-awesome/server>
 cloud "<$solr> Cluster" as cluster {
     node "<$server>\nA node" as node1 {
         rectangle "<$solr> Instance" as si1 {
             component "Core 1" as core1 #palegreen;line:green;text:green{
-                hexagon "Shard 1"
+                hexagon "Shard 1" {
+                    label "Index" as i1
+                }
             }
             component "Core 2" as core2 #palegreen;line:green;text:green{
-                hexagon "Shard 2"
+                hexagon "Shard 2"{
+                    label "Index" as i6
+                }
+
             }
             component "Core 3" as core3 #aliceblue;line:blue;text:blue{
-                hexagon "Shard 3"
+                hexagon "Shard 3"{
+                    label "Index" as i2
+                }
+
             }
             component "Core 4" as core4 #aliceblue;line:blue;text:blue{
-                hexagon "Shard 4"
+                hexagon "Shard 4"{
+                    label "Index" as i3
+                }
+
             }
             component "Core 5" as core5 #aliceblue;line:blue;text:blue{
-                hexagon "Shard 1" as sha1
+                hexagon "Shard 1" as sha1{
+                    label "Index" as i4
+                }
+
             }
             component "Core 6" as core6 #aliceblue;line:blue;text:blue{
-                hexagon "Shard 2" as sha23
+                hexagon "Shard 2" as sha23{
+                    label "Index" as i5
+                }
+
             }
         }
     }

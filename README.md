@@ -41,12 +41,12 @@ Solr Cloud provides text search capabilities to an application. Has distributed 
 Solr is a database, that contains documents. Documents of a certain type, which are going to be searched in the same way, are called a ```collection```.
 A collection can be split in ```shards```, and each shard contains a partition of the full set of documents in the collection. A shard is usually
 a partition on the range of the index: sort of the equivalent of the shelves
-in a library containing the authors from SBA to Z
+in a library containing the authors from SBA to Z. 
 
 ![](diagrams/out/solr-cloud-logical.png)
 
 A shard can be replicated on multiple nodes, and the nodes will decide
-who is the leader of the pack of shards, the ```leader shard```
+who is the leader of the pack of shards, the ```leader shard```. A core **CONTAINS** a shard of the index.
 
 ![](diagrams/out/solr-cloud-physical.png)
 
