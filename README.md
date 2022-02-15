@@ -4,33 +4,33 @@ Follows a curated guide to understanding and deploying Solr and Zookeeper, in sp
 
 ## What is Zookeeper
 
-```Provides distributed coordination and synchronization of settings, state of some application state```
+```Provides distributed coordination and synchronization of state (comprising also settings) for some application```
 
 But what does it mean? Many of us had this problem: 
 
-```I have a nice application, now I need to have it distribuited, so I can scale.``` 
+```I have developed a nice application, now I need to make it distribuited, so I can scale.```
 
 ![](diagrams/out/apps-with-state.png)
 
 And the following question is: 
 
-```How do I distribuite the state of my application to guarantee hig availability and the state always updated?```
+```How do I distribuite the state of my application to guarantee high availability and the state always updated?```
 
-We all know that the issue here is about maitaining that distribuited state, and we all know that is a steaming mess of issues and retries, and connections and corner cases
+It is clear that the issue here is about maintaining that _distribuited state_, and we all know what a steaming mess of connection issues, retries on connections and corner cases that means.
 
 ![](diagrams/out/apps-with-state-no-zk.png)
 
-Zookeeper answers to that problem:  it keeps the STATE of a distributed application. It also offers _high availability_ to your distributed application, in the same library: if one
+Zookeeper answers to that problem:  it keeps the STATE of a distributed application. It also offers _high availability_ to your distributed application, in the same library. If one would
 
-- Keeps the state of the app on ZK
-- Sets ZK in a way that "MAKES SENSE" (more on this later)
+- Keep the state of the app on ZK
+- Set ZK in a way that "MAKES SENSE" (more on this later)
 
-then has solved the problem of distribuiting a state for an app.
+then would have solved the problem of distribuiting a state for an app.
 ![](diagrams/out/apps-with-state-zk.png)
 
 ### VERY important facts
 
-A cluster of Zookeepers is called an ```ensemble```. An ensamble MUST be composed of an odd number of total nodes, so to guarantee, that, at least in principle, half minus one nodes can go down, and the ensamble has still a majority. A minorty ensamble is a useless ensamble, because one cannot say that the data contained in it is good or not.
+A cluster of Zookeepers is called an ```ensemble```. An ensemble MUST be composed of an odd number of total nodes, so to guarantee, that, at least in principle, half minus one nodes can go down, and the ensemble has still a majority. A minorty ensemble is a useless ensemble, because one cannot say that the data contained in it is good or not.
 
 ## What is Solr Cloud
 
@@ -60,7 +60,7 @@ And that means, if Zookeeper has no quorum, very bad things happen
 
 - The cores cannot know who is the leader of the pack, so no new indexes can be added, all the documents sent to any node for indexing remain in the t-logs, and no document can be deleted: basically the index freezes!
 
-- No new nodes can go up, because they can't access the configuration and do not know where are the other nodes are and cannot import the indexes: solr phisically doesn't know where are the indexes: this is extremely bad news for any sysadmin.
+- No new nodes can go up, because they can't access the configuration and do not know where are the other nodes are and cannot import the indexes: solr physically doesn't know where are the indexes: this is extremely bad news for any sysadmin.
 
 No ZK(quorum), No party.
 
@@ -74,7 +74,7 @@ let this sink in
 
 ![](diagrams/out/healty-solr.png)
 
- nothing less is a good idea if you want high availability.
+ nothing less is a good idea if you want high availability. In particularly, in case of two nodes, one might think that the second node would sort of jump in for the first one, but this is not what happens: there is simply no quorum for a cluster of 2.
 
 
 # Links and sources
