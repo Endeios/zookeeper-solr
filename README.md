@@ -72,7 +72,7 @@ No ZK(quorum), No party.
 
 let this sink in
 
-![](diagrams/out/healty-solr.png)
+![](diagrams/out/healthy-solr.png)
 
  nothing less is a good idea if you want high availability. In particularly, in case of two nodes, one might think that the second node would sort of jump in for the first one, but this is not what happens: there is simply no quorum for a cluster of 2.
 

@@ -1,5 +1,5 @@
-@startuml healty-solr
-title "How does an healty solr setup looks like"
+@startuml healthy-solr
+title "How does an healthy solr setup looks like"
 !include zk-logo.logo
 !include <C4/C4_Container>
 !include <C4/C4_Component>
